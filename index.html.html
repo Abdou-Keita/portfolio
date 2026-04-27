@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Abdou KEITA — Portfolio BTS SIO SISR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --white: #ffffff;
+      --surface: #f4f4f0;
+      --border: #e8e8e3;
+      --border2: #d0d0c8;
+      --text: #1a1a18;
+      --muted: #7a7a72;
+      --subtle: #b0b0a8;
+      --highlight: #3a3a36;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.6; }
+    ::-webkit-scrollbar{width:3px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      background:rgba(250,250,248,0.92); backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+      padding:0 4rem; height:64px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo { font-family:'DM Mono',monospace; font-size:0.78rem; font-weight:500; letter-spacing:0.06em; }
+    .nav-links { display:flex; gap:2.5rem; }
+    .nav-links a { text-decoration:none; color:var(--muted); font-size:0.88rem; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--text); }
+    .nav-badge { font-family:'DM Mono',monospace; font-size:0.68rem; background:var(--text); color:var(--white); padding:0.3rem 0.9rem; border-radius:100px; }
+
+    #hero {
+      min-height:100vh; display:grid; grid-template-columns:1fr 1fr;
+      align-items:center; max-width:1200px; margin:0 auto;
+      padding:8rem 4rem 4rem; gap:5rem;
+    }
+    .hero-left { opacity:0; animation:fadeUp 0.7s ease forwards 0.15s; }
+    .hero-eyebrow { display:flex; align-items:center; gap:0.7rem; margin-bottom:2rem; }
+    .eyebrow-dot { width:6px; height:6px; background:var(--text); border-radius:50%; }
+    .eyebrow-text { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase; }
+    h1 { font-size:clamp(3rem,5.5vw,5.5rem); font-weight:700; letter-spacing:-0.035em; line-height:1; }
+    h1 .last { font-weight:300; font-style:italic; color:var(--muted); }
+    .hero-desc { margin-top:2rem; color:var(--muted); font-size:1rem; max-width:400px; line-height:1.8; }
+    .hero-actions { margin-top:2.8rem; display:flex; gap:0.8rem; flex-wrap:wrap; }
+    .btn { display:inline-flex; align-items:center; gap:0.5rem; padding:0.75rem 1.6rem; border-radius:8px; font-size:0.88rem; font-weight:500; text-decoration:none; cursor:pointer; border:none; transition:all 0.2s; font-family:'DM Sans',sans-serif; }
+    .btn-dark { background:var(--text); color:var(--white); }
+    .btn-dark:hover { background:var(--highlight); transform:translateY(-1px); }
+    .btn-light { background:transparent; color:var(--text); border:1px solid var(--border2); }
+    .btn-light:hover { border-color:var(--text); transform:translateY(-1px); }
+
+    .hero-right { opacity:0; animation:fadeUp 0.7s ease forwards 0.35s; }
+    .info-card { background:var(--white); border:1px solid var(--border); border-radius:16px; overflow:hidden; box-shadow:0 2px 20px rgba(0,0,0,0.04); }
+    .card-header { padding:1.3rem 1.8rem; border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+    .card-label { font-family:'DM Mono',monospace; font-size:0.68rem; color:var(--subtle); letter-spacing:0.12em; text-transform:uppercase; }
+    .status-pill { display:flex; align-items:center; gap:0.4rem; font-size:0.72rem; color:#16a34a; background:#f0fdf4; border:1px solid #bbf7d0; padding:0.22rem 0.65rem; border-radius:100px; }
+    .status-dot { width:6px; height:6px; background:#16a34a; border-radius:50%; animation:pulse 2s ease infinite; }
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    .card-rows { padding:0 1.8rem; }
+    .card-row { display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:1px solid var(--border); }
+    .card-row:last-child { border-bottom:none; }
+    .row-key { font-size:0.8rem; color:var(--subtle); }
+    .row-val { font-size:0.88rem; font-weight:500; text-align:right; }
+    .row-val.blue { color:#1d4ed8; }
+    .card-footer { padding:1.2rem 1.8rem; background:var(--surface); border-top:1px solid var(--border); display:flex; gap:2.5rem; }
+    .stat-num { font-size:1.5rem; font-weight:700; line-height:1; }
+    .stat-lbl { font-size:0.72rem; color:var(--muted); margin-top:0.2rem; }
+
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+
+    .section-wrap { max-width:1200px; margin:0 auto; padding:5.5rem 4rem; }
+    .divider { height:1px; background:var(--border); max-width:1200px; margin:0 auto; }
+    .section-head { display:flex; align-items:baseline; gap:1rem; margin-bottom:3rem; }
+    .section-num { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--subtle); }
+    h2 { font-size:1.9rem; font-weight:700; letter-spacing:-0.025em; }
+
+    .skills-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+    .skill-item { background:var(--white); padding:2rem 1.8rem; opacity:0; transform:translateY(12px); transition:opacity 0.5s,transform 0.5s,background 0.2s; }
+    .skill-item.visible { opacity:1; transform:translateY(0); }
+    .skill-item:hover { background:var(--surface); }
+    .skill-icon { font-size:1.5rem; margin-bottom:1rem; }
+    .skill-name { font-size:0.93rem; font-weight:600; margin-bottom:0.4rem; }
+    .skill-desc { font-size:0.8rem; color:var(--muted); line-height:1.65; margin-bottom:1.2rem; }
+    .tags { display:flex; flex-wrap:wrap; gap:0.35rem; }
+    .tag { font-family:'DM Mono',monospace; font-size:0.66rem; background:var(--surface); color:var(--muted); border:1px solid var(--border); padding:0.18rem 0.52rem; border-radius:4px; }
+
+    #progress { background:var(--white); }
+    .prog-cols { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
+    .prog-label { font-family:'DM Mono',monospace; font-size:0.7rem; color:var(--subtle); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:2rem; }
+    .prog-item { margin-bottom:1.6rem; }
+    .prog-top { display:flex; justify-content:space-between; margin-bottom:0.5rem; }
+    .prog-name { font-size:0.88rem; font-weight:500; }
+    .prog-pct { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--muted); }
+    .prog-track { height:3px; background:var(--border); border-radius:2px; overflow:hidden; }
+    .prog-fill { height:100%; background:var(--text); border-radius:2px; width:0%; transition:width 1.4s cubic-bezier(0.4,0,0.2,1); }
+
+    .proj-list { display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
+    .proj-row { background:var(--white); display:grid; grid-template-columns:70px 1fr auto; align-items:center; gap:2rem; padding:1.8rem 2rem; opacity:0; transform:translateX(-12px); transition:opacity 0.45s,transform 0.45s,background 0.2s; }
+    .proj-row.visible { opacity:1; transform:translateX(0); }
+    .proj-row:hover { background:var(--surface); }
+    .proj-num { font-family:'DM Mono',monospace; font-size:0.72rem; color:var(--subtle); }
+    .proj-title { font-size:0.96rem; font-weight:600; margin-bottom:0.25rem; }
+    .proj-desc { font-size:0.81rem; color:var(--muted); }
+    .proj-tags { display:flex; gap:0.4rem; flex-wrap:wrap; justify-content:flex-end; }
+
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:5rem; }
+    .about-text p { font-size:0.93rem; color:var(--muted); line-height:1.8; margin-bottom:1rem; }
+    .about-text p strong { color:var(--text); font-weight:600; }
+    .timeline { display:flex; flex-direction:column; }
+    .tl-item { display:flex; gap:1.4rem; padding-bottom:2rem; position:relative; }
+    .tl-item:not(:last-child)::after { content:''; position:absolute; left:7px; top:16px; width:1px; height:calc(100% - 8px); background:var(--border); }
+    .tl-dot { width:15px; height:15px; border-radius:50%; border:2px solid var(--border2); background:var(--white); flex-shrink:0; margin-top:3px; position:relative; z-index:1; }
+    .tl-dot.active { border-color:var(--text); background:var(--text); }
+    .tl-title { font-size:0.9rem; font-weight:600; margin-bottom:0.2rem; }
+    .tl-sub { font-size:0.78rem; color:var(--muted); font-family:'DM Mono',monospace; }
+    .tl-school { font-size:0.78rem; color:#1d4ed8; font-weight:500; margin-top:0.2rem; }
+
+    .synth-table-wrapper { overflow-x: auto; background:var(--white); border:1px solid var(--border); border-radius:16px; margin-top:1rem; }
+    .synth-table { width:100%; border-collapse:collapse; font-size:0.8rem; }
+    .synth-table th, .synth-table td { padding:0.8rem; text-align:center; border-bottom:1px solid var(--border); vertical-align:top; }
+    .synth-table th:first-child, .synth-table td:first-child { text-align:left; font-weight:600; background:var(--white); position:sticky; left:0; }
+    .synth-table th { background:var(--surface); font-weight:600; font-size:0.75rem; letter-spacing:0.03em; }
+    .synth-table tr:hover td { background:var(--surface); }
+    .doc-btn { background:var(--text); color:var(--white); border:none; border-radius:20px; padding:0.3rem 0.8rem; font-size:0.65rem; font-family:'DM Mono',monospace; cursor:pointer; transition:background 0.2s; margin-top:0.3rem; }
+    .doc-btn:hover { background:var(--highlight); }
+    .check-yes { color:#16a34a; font-weight:500; white-space:pre-line; }
+    .check-yes::before { content:"✓ "; font-size:0.9rem; }
+    .footer-note { margin-top:1rem; font-size:0.7rem; color:var(--muted); text-align:right; }
+
+    .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; }
+    .modal-content { background:var(--white); border-radius:20px; max-width:700px; width:90%; max-height:80vh; overflow-y:auto; padding:2rem; position:relative; box-shadow:0 20px 40px rgba(0,0,0,0.2); }
+    .modal-close { position:absolute; top:1rem; right:1.5rem; font-size:1.8rem; cursor:pointer; color:var(--muted); }
+    .modal-close:hover { color:var(--text); }
+    .modal h3 { font-size:1.4rem; margin-bottom:1rem; }
+    .modal h4 { font-size:1rem; margin:1rem 0 0.3rem 0; color:var(--text); }
+    .modal p, .modal li { font-size:0.85rem; color:var(--muted); line-height:1.5; }
+    .modal ul { margin-left:1.2rem; }
+    .modal img { max-width:100%; border-radius:12px; margin:0.8rem 0; border:1px solid var(--border); }
+
+    .annexes-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px,1fr)); gap:1.5rem; margin-top:1.5rem; }
+    .annexe-card { background:var(--white); border:1px solid var(--border); border-radius:16px; overflow:hidden; transition:transform 0.2s; }
+    .annexe-card:hover { transform:translateY(-4px); }
+    .annexe-card img { width:100%; height:auto; display:block; border-bottom:1px solid var(--border); }
+    .annexe-caption { padding:0.75rem; font-size:0.7rem; color:var(--muted); text-align:center; font-family:'DM Mono',monospace; }
+
+    #contact { background:var(--text); }
+    #contact .section-num { color:rgba(255,255,255,0.25); }
+    #contact h2 { color:var(--white); }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; align-items:start; }
+    .contact-intro { color:rgba(255,255,255,0.5); font-size:0.95rem; line-height:1.8; margin-top:0.6rem; max-width:360px; }
+    .contact-links { display:flex; flex-direction:column; gap:0.7rem; margin-top:2rem; }
+    .contact-link { display:flex; align-items:center; justify-content:space-between; padding:1rem 1.4rem; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08); border-radius:10px; color:var(--white); text-decoration:none; font-size:0.88rem; transition:all 0.2s; }
+    .contact-link:hover { background:rgba(255,255,255,0.09); transform:translateX(4px); }
+    .cl-left { display:flex; align-items:center; gap:0.8rem; color:rgba(255,255,255,0.65); }
+    .cl-arrow { color:rgba(255,255,255,0.25); font-size:0.75rem; }
+    .terminal { background:#111; border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,0.06); }
+    .term-bar { padding:0.75rem 1.1rem; background:#191919; display:flex; align-items:center; gap:0.45rem; border-bottom:1px solid rgba(255,255,255,0.05); }
+    .td { width:10px; height:10px; border-radius:50%; }
+    .td-r{background:#ff5f57} .td-y{background:#febc2e} .td-g{background:#28c840}
+    .term-body { padding:1.4rem 1.6rem; font-family:'DM Mono',monospace; font-size:0.78rem; line-height:2.1; }
+    .tl-t { display:flex; gap:0.5rem; }
+    .tp { color:rgba(255,255,255,0.2); }
+    .tc { color:rgba(255,255,255,0.8); }
+    .to { color:#4ade80; padding-left:1.2rem; }
+    .tcursor { display:inline-block; width:7px; height:13px; background:rgba(255,255,255,0.55); animation:blink 1s step-end infinite; vertical-align:middle; }
+    @keyframes blink{50%{opacity:0}}
+
+    footer { padding:1.6rem 4rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; color:var(--muted); background:var(--white); }
+    footer strong { color:var(--text); }
+
+    @media(max-width:900px){
+      nav{padding:0 1.5rem}
+      .nav-links{display:none}
+      #hero{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;gap:2.5rem}
+      .section-wrap{padding:3.5rem 1.5rem}
+      .skills-grid{grid-template-columns:1fr 1fr}
+      .prog-cols{grid-template-columns:1fr;gap:2.5rem}
+      .proj-row{grid-template-columns:1fr;gap:0.5rem}
+      .proj-num{display:none}
+      .proj-tags{justify-content:flex-start}
+      .about-grid{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
+      footer{flex-direction:column;gap:0.4rem;text-align:center;padding:1.5rem}
+      .synth-table th:first-child, .synth-table td:first-child { position:static; }
+      .annexes-grid { grid-template-columns:1fr; }
+    }
+    @media(max-width:560px){.skills-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">ABDOU KEITA</div>
+    <div class="nav-links">
+      <a href="#about">À propos</a>
+      <a href="#skills">Compétences</a>
+      <a href="#projects">Projets</a>
+      <a href="#synthèse">Tableau E4</a>
+      <a href="#annexes">Annexes</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-badge">BTS SIO · SISR</div>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="eyebrow-dot"></div>
+        <div class="eyebrow-text">BTS SIO SISR — EFREI Paris</div>
+      </div>
+      <h1>Abdou<br><span class="last">KEITA</span></h1>
+      <p class="hero-desc">
+        Étudiant en 1ère année de BTS SIO option SISR à l'EFREI Paris.
+        Passionné par les réseaux, l'administration système et la cybersécurité.
+      </p>
+      <div class="hero-actions">
+        <a href="#skills" class="btn btn-dark">Voir mes compétences</a>
+        <a href="#contact" class="btn btn-light">Me contacter</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="info-card">
+        <div class="card-header">
+          <div class="card-label">profil.json</div>
+          <div class="status-pill"><div class="status-dot"></div>Disponible</div>
+        </div>
+        <div class="card-rows">
+          <div class="card-row"><span class="row-key">Formation</span><span class="row-val">BTS SIO — 1ère année</span></div>
+          <div class="card-row"><span class="row-key">Option</span><span class="row-val">SISR</span></div>
+          <div class="card-row"><span class="row-key">École</span><span class="row-val blue">EFREI Paris</span></div>
+          <div class="card-row"><span class="row-key">Localisation</span><span class="row-val">Île-de-France</span></div>
+          <div class="card-row"><span class="row-key">Recherche</span><span class="row-val">Stage / Alternance</span></div>
+        </div>
+        <div class="card-footer">
+          <div><div class="stat-num">6+</div><div class="stat-lbl">Technologies</div></div>
+          <div><div class="stat-num">4+</div><div class="stat-lbl">Projets</div></div>
+          <div><div class="stat-num">1 an</div><div class="stat-lbl">Formation</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="about">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">01</span><h2>À propos</h2></div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>Je suis <strong>Abdou KEITA</strong>, étudiant en 1ère année de <strong>BTS SIO option SISR</strong> à l'<strong>EFREI Paris</strong>. Cette formation me donne des bases solides en infrastructure, réseaux et administration des systèmes informatiques.</p>
+          <p>L'option <strong>SISR</strong> (Solutions d'Infrastructure, Systèmes et Réseaux) me forme à concevoir, déployer et maintenir des infrastructures réseau, à administrer des serveurs Windows et Linux, et à assurer la sécurité des systèmes d'information.</p>
+          <p>Curieux et rigoureux, je cherche à mettre mes compétences en pratique lors d'un <strong>stage ou d'une alternance</strong> pour monter en expertise sur le terrain.</p>
+        </div>
+        <div>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot active"></div><div><div class="tl-title">BTS SIO — Option SISR</div><div class="tl-school">EFREI Paris</div><div class="tl-sub">2024 – 2026 · En cours</div></div></div>
+            <div class="tl-item"><div class="tl-dot active"></div><div><div class="tl-title">Baccalauréat obtenu</div><div class="tl-sub">2024 · Diplômé</div></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-title">Stage en entreprise</div><div class="tl-sub">À venir · 5 semaines</div></div></div>
+            <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-title">2ème année BTS SIO</div><div class="tl-sub">2025 – 2026 · À venir</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="skills">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">02</span><h2>Compétences</h2></div>
+      <div class="skills-grid">
+        <div class="skill-item" data-delay="0"><div class="skill-icon">🌐</div><div class="skill-name">Réseaux Informatiques</div><div class="skill-desc">Conception et configuration de réseaux locaux, adressage IP, routage et protocoles réseau fondamentaux.</div><div class="tags"><span class="tag">TCP/IP</span><span class="tag">VLAN</span><span class="tag">Routage</span><span class="tag">DNS/DHCP</span></div></div>
+        <div class="skill-item" data-delay="100"><div class="skill-icon">🖥️</div><div class="skill-name">Administration Systèmes</div><div class="skill-desc">Installation, configuration et gestion de serveurs, utilisateurs, droits et politiques de groupe.</div><div class="tags"><span class="tag">Windows Server</span><span class="tag">Linux</span><span class="tag">Active Directory</span><span class="tag">GPO</span></div></div>
+        <div class="skill-item" data-delay="200"><div class="skill-icon">🔒</div><div class="skill-name">Cybersécurité</div><div class="skill-desc">Sécurisation des systèmes, pare-feu, VPN, chiffrement et bonnes pratiques.</div><div class="tags"><span class="tag">Pare-feu</span><span class="tag">VPN</span><span class="tag">OWASP</span><span class="tag">Cryptographie</span></div></div>
+        <div class="skill-item" data-delay="150"><div class="skill-icon">💻</div><div class="skill-name">Scripting & Automatisation</div><div class="skill-desc">Écriture de scripts pour automatiser des tâches d'administration.</div><div class="tags"><span class="tag">Bash</span><span class="tag">PowerShell</span><span class="tag">Python</span></div></div>
+        <div class="skill-item" data-delay="250"><div class="skill-icon">☁️</div><div class="skill-name">Virtualisation</div><div class="skill-desc">Déploiement de machines virtuelles, simulation d'infrastructures.</div><div class="tags"><span class="tag">VirtualBox</span><span class="tag">VMware</span><span class="tag">Packet Tracer</span></div></div>
+        <div class="skill-item" data-delay="350"><div class="skill-icon">🛠️</div><div class="skill-name">Outils & Méthodes</div><div class="skill-desc">Supervision, documentation technique, gestion de tickets.</div><div class="tags"><span class="tag">Wireshark</span><span class="tag">Git</span><span class="tag">GLPI</span><span class="tag">UML</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="progress">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">03</span><h2>Niveaux techniques</h2></div>
+      <div class="prog-cols">
+        <div><div class="prog-label">// Systèmes & Réseaux</div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Réseaux TCP/IP</span><span class="prog-pct">75%</span></div><div class="prog-track"><div class="prog-fill" data-width="75"></div></div></div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Linux / Bash</span><span class="prog-pct">68%</span></div><div class="prog-track"><div class="prog-fill" data-width="68"></div></div></div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Windows Server</span><span class="prog-pct">70%</span></div><div class="prog-track"><div class="prog-fill" data-width="70"></div></div></div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">PowerShell</span><span class="prog-pct">55%</span></div><div class="prog-track"><div class="prog-fill" data-width="55"></div></div></div>
+        </div>
+        <div><div class="prog-label">// Outils & Sécurité</div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Virtualisation</span><span class="prog-pct">72%</span></div><div class="prog-track"><div class="prog-fill" data-width="72"></div></div></div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Cybersécurité</span><span class="prog-pct">60%</span></div><div class="prog-track"><div class="prog-fill" data-width="60"></div></div></div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Wireshark</span><span class="prog-pct">65%</span></div><div class="prog-track"><div class="prog-fill" data-width="65"></div></div></div>
+          <div class="prog-item"><div class="prog-top"><span class="prog-name">Python</span><span class="prog-pct">58%</span></div><div class="prog-track"><div class="prog-fill" data-width="58"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="projects">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">04</span><h2>Projets & TP</h2></div>
+      <div class="proj-list">
+        <div class="proj-row" data-delay="0"><div class="proj-num">01</div><div><div class="proj-title">Infrastructure Réseau LAN</div><div class="proj-desc">Configuration d'un réseau local avec VLANs, routage, DHCP et DNS sous Cisco Packet Tracer.</div></div><div class="proj-tags"><span class="tag">Packet Tracer</span><span class="tag">VLAN</span><span class="tag">TCP/IP</span></div></div>
+        <div class="proj-row" data-delay="100"><div class="proj-num">02</div><div><div class="proj-title">Serveur Windows Server & AD</div><div class="proj-desc">Installation d'Active Directory, gestion utilisateurs, groupes, GPO et partages réseau.</div></div><div class="proj-tags"><span class="tag">Windows Server</span><span class="tag">Active Directory</span><span class="tag">GPO</span></div></div>
+        <div class="proj-row" data-delay="200"><div class="proj-num">03</div><div><div class="proj-title">Serveur Linux Debian</div><div class="proj-desc">Déploiement d'un serveur web Apache sous Debian, SSH, droits et scripts Bash.</div></div><div class="proj-tags"><span class="tag">Debian</span><span class="tag">Apache</span><span class="tag">Bash</span></div></div>
+        <div class="proj-row" data-delay="300"><div class="proj-num">04</div><div><div class="proj-title">Audit de Sécurité Réseau</div><div class="proj-desc">Analyse de trames avec Wireshark, identification de failles, règles de pare-feu.</div></div><div class="proj-tags"><span class="tag">Wireshark</span><span class="tag">Pare-feu</span><span class="tag">Sécurité</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="synthèse">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">05</span><h2>Tableau de synthèse – Épreuve E4</h2></div>
+      <div class="synth-table-wrapper">
+        <table class="synth-table">
+          <thead>
+            <tr>
+              <th>Réalisation professionnelle</th>
+              <th>C1 – Recenser et identifier les ressources numériques <button class="doc-btn" data-doc="c1">📄 Doc</button></th>
+              <th>C7 – Collecter, suivre et orienter des demandes <button class="doc-btn" data-doc="c7">📄 Doc</button></th>
+              <th>C11 – Référencer et mesurer la visibilité <button class="doc-btn" data-doc="c11">📄 Doc</button></th>
+              <th>Travailler en mode projet</th>
+              <th>C17 – Déployer un service <button class="doc-btn" data-doc="c17">📄 Doc</button></th>
+              <th>Organiser son développement professionnel</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="check-yes">Hackathon (24h, GitHub Pages)</td><td></td><td class="check-yes">Gestion des tâches, répartition, suivi Trello</td><td class="check-yes"></td><td class="check-yes">Travail d'équipe, 24h</td><td class="check-yes">Déploiement GitHub Pages</td><td class="check-yes">Découverte Docker / MongoDB</td></tr>
+            <tr><td class="check-yes">TP Google Analytics</td><td class="check-yes"></td><td class="check-yes"></td><td class="check-yes">GA4, RGPD, analyse d'audience et trafic</td><td class="check-yes"></td><td class="check-yes"></td><td class="check-yes">Compréhension outils de mesure</td></tr>
+            <tr><td class="check-yes">Active Directory (Windows Server)</td><td class="check-yes">Inventaire utilisateurs/groupes/OU/ordinateurs</td><td class="check-yes">Dépannage accès et droits utilisateurs</td><td class="check-yes"></td><td class="check-yes"></td><td class="check-yes">Déploiement AD DS</td><td class="check-yes"></td></tr>
+            <tr><td class="check-yes">Site dynamique + BDD (PHP/MySQL)</td><td class="check-yes"></td><td class="check-yes">Correction bugs SQL et demandes back-end</td><td class="check-yes"></td><td class="check-yes">Projet en groupe</td><td class="check-yes">Hébergement local + VPS</td><td class="check-yes">Approfondissement PHP/MySQL</td></tr>
+            <tr><td class="check-yes">Serveur DHCP (Cisco Packet Tracer)</td><td class="check-yes"></td><td class="check-yes">Configuration et dépannage DHCP</td><td class="check-yes"></td><td class="check-yes"></td><td class="check-yes">Déploiement service réseau</td><td class="check-yes"></td></tr>
+            <tr><td class="check-yes">Portfolio personnel (HTML/CSS + GitHub Pages)</td><td class="check-yes"></td><td class="check-yes"></td><td class="check-yes">Vitrine pro, identité en ligne, référencement</td><td class="check-yes"></td><td class="check-yes">Déploiement GitHub Pages</td><td class="check-yes">LinkedIn, CV, projet professionnel</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="footer-note">✓ = compétence couverte par la réalisation / 📄 Doc = documentation détaillée</div>
+    </div>
+  </section>
+
+  <div id="docModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <section id="annexes">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">06</span><h2>Annexes – Captures d'écran des projets</h2></div>
+      <div class="annexes-grid">
+        
+        <div class="annexe-card">
+          <img src="active directory.jpg" alt="Active Directory - Structure des OU">
+          <div class="annexe-caption">C1 – Active Directory : Organisation des unités organisationnelles</div>
+        </div>
+        </div>
+        <div class="annexe-card">
+          <img src="trello2.png" alt="Tableau Trello Hackathon">
+          <div class="annexe-caption">C7 – Gestion des tâches sur Trello pendant le Hackathon</div>
+        </div>
+        <div class="annexe-card">
+          <img src="google analytics2.png" alt="Dashboard Google Analytics 4">
+          <div class="annexe-caption">C11 – Tableau de bord Google Analytics 4 (visiteurs, sessions)</div>
+        </div>
+        <div class="annexe-card">
+          <img src="CampusPLus.png" alt="Site dynamique en ligne">
+          <div class="annexe-caption">C17 – Site dynamique PHP/MySQL déployé et accessible.
+            <a href="https://abdou-keita.github.io/test-PHP-MySQL/" target="_blank">🔗 Voir le site</a>
+        </div>
+        <div class="annexe-card">
+          <img src="Multivers tech2.png" alt="Équipe Hackathon">
+          <div class="annexe-caption">Hackathon – Travail en équipe et gestion des tâches via Trello.
+            <a href="https://abdou-keita.github.io/Page-WEB/" target="_blank">🔗 Voir le site</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section id="contact">
+    <div class="section-wrap">
+      <div class="section-head"><span class="section-num">07</span><h2>Contact</h2></div>
+      <div class="contact-grid">
+        <div>
+          <p class="contact-intro">Je suis à la recherche d'un stage ou d'une alternance en administration systèmes et réseaux. N'hésitez pas à me contacter pour échanger !</p>
+          <div class="contact-links">
+            <a href="mailto:abdoukhrd@gmail.com" class="contact-link"><span class="cl-left">✉️ abdoukhrd@gmail.com</span><span class="cl-arrow">→</span></a>
+            <a href="https://www.linkedin.com/in/abdou-keita-873857365/" target="_blank" class="contact-link"><span class="cl-left">💼 LinkedIn — Abdou KEITA</span><span class="cl-arrow">→</span></a>
+            <a href="https://github.com/Abdou-Keita" target="_blank" class="contact-link"><span class="cl-left">🐙 GitHub — Abdou-Keita</span><span class="cl-arrow">→</span></a>
+          </div>
+        </div>
+        <div class="terminal">
+          <div class="term-bar"><div class="td td-r"></div><div class="td td-y"></div><div class="td td-g"></div></div>
+          <div class="term-body">
+            <div class="tl-t"><span class="tp">$</span><span class="tc">whoami</span></div><div class="to">abdou_keita</div>
+            <div class="tl-t"><span class="tp">$</span><span class="tc">cat formation.txt</span></div><div class="to">BTS SIO SISR · EFREI Paris · 1ère année</div>
+            <div class="tl-t"><span class="tp">$</span><span class="tc">skills --list</span></div><div class="to">Réseaux, Linux, Windows Server, Bash, PowerShell, Wireshark, VPN</div>
+            <div class="tl-t"><span class="tp">$</span><span class="tc">status</span></div><div class="to">✓ Disponible — stage / alternance</div>
+            <div class="tl-t"><span class="tp">$</span><span class="tcursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <strong>Abdou KEITA</strong>
+    <span>BTS SIO SISR · EFREI Paris · 2025 – 2026</span>
+    <span>Portfolio personnel</span>
+    <span>Dernière mise à jour : avril 2025</span>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){ const d=parseInt(e.target.dataset.delay||0); setTimeout(()=>e.target.classList.add('visible'),d); obs.unobserve(e.target); } }); }, { threshold:0.1 });
+    document.querySelectorAll('.skill-item, .proj-row').forEach(el=>obs.observe(el));
+    const progObs = new IntersectionObserver(entries => { entries.forEach(e=>{ if(e.isIntersecting){ document.querySelectorAll('.prog-fill').forEach(b=>b.style.width=b.dataset.width+'%'); progObs.disconnect(); } }); }, { threshold:0.3 });
+    const ps = document.querySelector('#progress'); if(ps) progObs.observe(ps);
+    const navAs = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll',()=>{ let cur=''; document.querySelectorAll('section[id]').forEach(s=>{ if(window.scrollY>=s.offsetTop-100) cur=s.id; }); navAs.forEach(a=>{ const act=a.getAttribute('href')==='#'+cur; a.style.color=act?'var(--text)':''; a.style.fontWeight=act?'600':''; }); });
+
+    const modal = document.getElementById('docModal');
+    const modalBody = document.getElementById('modal-body');
+    const closeModal = document.querySelector('.modal-close');
+
+    const docs = {
+      c1: `<h3>📄 Documentation C1 – Recenser et identifier les ressources numériques</h3>
+        <p><strong>Projet :</strong> Active Directory (Windows Server)</p>
+        <h4>1. Contexte et objectif</h4><p>Dans le cadre d’un TP d’administration système, j’ai installé et configuré un contrôleur de domaine sous Windows Server 2022. L’objectif était de recenser l’ensemble des utilisateurs, des groupes et des ordinateurs d’une entreprise fictive de 20 personnes, et de les organiser dans l’annuaire Active Directory.</p>
+        <h4>2. Déroulement</h4><p>J’ai d’abord créé une machine virtuelle avec VirtualBox et installé Windows Server. Ensuite, j’ai ajouté le rôle AD DS et promu le serveur en contrôleur de domaine. J’ai créé trois unités organisationnelles (OU) : Comptabilité, RH, Direction. J’ai recensé les 15 utilisateurs sur une feuille Excel, puis je les ai créés un par un dans l’annuaire. J’ai aussi ajouté 10 ordinateurs et créé 3 groupes de sécurité. Pour finir, j’ai utilisé PowerShell pour exporter la liste complète.</p>
+        <h4>3. Difficultés rencontrées</h4><p>Je n’étais pas sûr de comment bien organiser les OU. Je ne savais pas toujours quel utilisateur devait être dans quel service. J’avais peur d’oublier des ressources importantes.</p>
+        <h4>4. Solutions apportées</h4><p>J’ai d’abord fait un inventaire papier (tableau Excel) avant de créer quoi que ce soit dans AD. J’ai demandé à mon professeur de valider ma répartition. Ensuite, j’ai créé les ressources dans l’ordre : OU → utilisateurs → groupes → ordinateurs. J’ai utilisé l’export PowerShell pour vérifier qu’il n’y avait rien d’oublié.</p>
+        <h4>5. Ce que j’ai retenu / appris</h4><p>J’ai appris à recenser et organiser des ressources numériques avec Active Directory. Je sais maintenant créer une structure logique (OU, utilisateurs, groupes) et exporter un inventaire. C’est une base importante pour gérer le patrimoine informatique.</p>`,
+      c7: `<h3>📄 Documentation C7 – Collecter, suivre et orienter des demandes</h3>
+        <p><strong>Projet :</strong> Hackathon (développement site web en 24h)</p>
+        <h4>1. Contexte et objectif</h4><p>Lors d’un hackathon organisé par mon école, j’ai travaillé en équipe de 4 pendant 24h pour développer un site web. L’objectif était de répondre aux demandes du cahier des charges, et de gérer les demandes internes et externes.</p>
+        <h4>2. Déroulement</h4><p>Dès le début, nous avons listé toutes les demandes du sujet sur un tableau Trello (colonnes : À faire, En cours, Fait). Chaque demande a été attribuée à un membre. Moi, j’étais responsable du back-end. À chaque besoin, je le collectais, le notais dans Trello, puis l’orientais vers la bonne personne. Points d’étape toutes les 4 heures.</p>
+        <h4>3. Difficultés rencontrées</h4><p>Les demandes arrivaient tout le temps, parfois au dernier moment. Certaines demandes n’étaient pas claires ou contradictoires.</p>
+        <h4>4. Solutions apportées</h4><p>Toutes les demandes devaient passer par le chef de projet. Il décidait de la priorité et de l’attribution. Pour les urgences, colonne « Critique » sur Trello.</p>
+        <h4>5. Ce que j’ai retenu / appris</h4><p>J’ai appris à collecter, suivre et orienter des demandes en équipe. Trello et un chef de projet clarifient tout. Je réutiliserai ces méthodes.</p>`,
+      c11: `<h3>📄 Documentation C11 – Référencer les services en ligne et mesurer leur visibilité</h3>
+        <p><strong>Projet :</strong> TP Google Analytics (GA4)</p>
+        <h4>1. Contexte et objectif</h4><p>J’ai installé Google Analytics 4 sur un site vitrine pour mesurer sa visibilité : nombre de visiteurs, provenance, pages consultées.</p>
+        <h4>2. Déroulement</h4><p>J’ai créé un compte GA4, un flux de données web, installé le code via WordPress (Site Kit). Après quelques jours, j’ai analysé les rapports Acquisition, Comportement et données démographiques.</p>
+        <h4>3. Difficultés rencontrées</h4><p>Indicateurs complexes (taux d’engagement, événements) et changement de logique (sessions → événements).</p>
+        <h4>4. Solutions apportées</h4><p>Tutoriels YouTube pour débutants, aide intégrée GA4. J’ai créé un événement personnalisé (clics bouton) pour comprendre.</p>
+        <h4>5. Ce que j’ai retenu / appris</h4><p>GA4 donne une vue extérieure précise : provenance, pages vues, durée de visite. Indispensable pour améliorer le référencement.</p>`,
+      c17: `<h3>📄 Documentation C17 – Déployer un service</h3>
+        <p><strong>Projet :</strong> Site dynamique + base de données (PHP/MySQL)</p>
+        <h4>1. Contexte et objectif</h4><p>Avec mon équipe, nous avons développé un site PHP/MySQL. Objectif : le déployer pour qu’il soit accessible en ligne.</p>
+        <h4>2. Déroulement</h4><p>Après le développement local (XAMPP), j’ai exporté la BDD (.sql), loué un VPS OVH, installé Apache/PHP/MySQL, transféré les fichiers, importé la BDD, modifié la configuration.</p>
+        <h4>3. Difficultés rencontrées</h4><p>Erreur « Access denied » après déploiement : la BDD ne se connectait pas.</p>
+        <h4>4. Solutions apportées</h4><p>Lecture des logs Apache : le nom d’hôte était « localhost » au lieu de « 127.0.0.1 ». Correction + vérification des droits MySQL. Redémarrage Apache → site en ligne.</p>
+        <h4>5. Ce que j’ai retenu / appris</h4><p>Les étapes clés : exporter BDD, transférer fichiers, configurer serveur, lire les logs. Le déploiement demande rigueur mais c’est gratifiant.</p>`
+    };
+
+    document.querySelectorAll('.doc-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const docId = btn.getAttribute('data-doc');
+        if (docId && docs[docId]) {
+          modalBody.innerHTML = docs[docId];
+          modal.style.display = 'flex';
+        }
+      });
+    });
+
+    closeModal.addEventListener('click', () => { modal.style.display = 'none'; });
+    window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+  </script>
+</body>
+</html>
